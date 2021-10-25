@@ -7,6 +7,7 @@ const getData = async(url) =>{
         const data = await response.json()
         console.log(data.results);
         printData(data)
+        printPagination(data.info)
     }
     catch(error){
         throw error
@@ -29,5 +30,22 @@ const  printData = (data) => {
         html += '</div>'
     });
     document.getElementById('cards-Char').innerHTML = html
+}
+const printPagination = (info) =>{
+
+    let preDisable = info.prev == null ? 'disabled' : '';
+    let nextDisable = info.next == null ? 'disabled' : '';
+
+    let html = ` <li class="page-item">
+                    <a class="page-link ${preDisable}" onclick="getData('${info.prev}')" style="width:100px; height:50px; text-align:center; cursor:pointer; font-size:20px;">
+                    Previous
+                    </a>
+                </li>`
+    html += `   <li class="page-item">
+                    <a class="page-link ${nextDisable}" onclick="getData('${info.next}')" style="width:100px; height:50px; text-align:center;  cursor:pointer; font-size:20px;">
+                    Next
+                    </a>
+                </li>`
+    document.getElementById('pagination').innerHTML = html
 }
 getData(API)
